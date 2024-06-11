@@ -1,0 +1,25 @@
+{
+  "name": "battleship",
+  "version": "1.0.0",
+  "description": "battleship game for The Odin Project",
+  "main": "index.js",
+  "scripts": {
+    "test":   "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soniikot/Battleship.git"
+  },
+  "author": "Sofia K",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/soniikot/Battleship/issues"
+  },
+  "homepage": "https://github.com/soniikot/Battleship#readme",
+  "devDependencies": {
+    "html-webpack-plugin": "^5.6.0",
+    "jest": "^29.7.0",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
