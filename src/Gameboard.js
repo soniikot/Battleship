@@ -1,14 +1,16 @@
+const Ship = require("./ship");
+
 class GameBoard {
-  constructor(size = 10) {
-    this.size = size;
-    this.grid = this.createGrid(size);
+  constructor() {
+    this.grid = this.createGrid();
+    this.ships = [];
   }
 
-  createGrid(size) {
+  createGrid() {
     const grid = [];
-    for (let row = 0; row < size; row++) {
+    for (let row = 0; row < 10; row++) {
       const rowArray = [];
-      for (let col = 0; col < size; col++) {
+      for (let col = 0; col < 10; col++) {
         rowArray.push(null);
       }
       grid.push(rowArray);
@@ -17,35 +19,65 @@ class GameBoard {
   }
 
   placeShip(row, col, length, direction) {
+    const ship = new Ship(length);
+
     if (
       !this.isValidPosition(row, col) ||
       !this.isSpaceAvailable(row, col, length, direction)
     ) {
-      console.log("Invalid position or not enough space");
-      return;
+      return "error";
     }
 
     for (let i = 0; i < length; i++) {
       if (direction === "horizontal") {
-        this.grid[row][col + i] = "S";
+        this.grid[row][col + i] = ship;
       } else if (direction === "vertical") {
-        this.grid[row + i][col] = "S";
+        this.grid[row + i][col] = ship;
       }
     }
+
+    this.markSurroundingCells(row, col, length, direction);
+    this.ships.push(ship);
+    return "ship placed";
+  }
+
+  markSurroundingCells(row, col, length, direction) {
+    const surroundingCells = [];
+    for (let i = -1; i <= length; i++) {
+      for (let j = -1; j <= 1; j++) {
+        let newRow, newCol;
+        if (direction === "horizontal") {
+          newRow = row + j;
+          newCol = col + i;
+        } else {
+          newRow = row + i;
+          newCol = col + j;
+        }
+        if (
+          this.isValidPosition(newRow, newCol) &&
+          this.grid[newRow][newCol] === null
+        ) {
+          surroundingCells.push([newRow, newCol]);
+        }
+      }
+    }
+    surroundingCells.forEach(([r, c]) => {
+      this.grid[r][c] = this.grid[r][c] || "X";
+    });
   }
 
   isValidPosition(row, col) {
-    return row >= 0 && row < this.size && col >= 0 && col < this.size;
+    return row >= 0 && row < 10 && col >= 0 && col < 10;
   }
 
   isSpaceAvailable(row, col, length, direction) {
     for (let i = 0; i < length; i++) {
       if (direction === "horizontal") {
-        if (col + i >= this.size || this.grid[row][col + i] !== null) {
+        if (col + i >= 10 || this.grid[row][col + i] !== null) {
           return false;
         }
       } else if (direction === "vertical") {
-        if (row + i >= this.size || this.grid[row + i][col] !== null) {
+        if (row + i >= 10 || this.grid[row + i][col] !== null) {
           return false;
         }
       }
@@ -53,23 +85,34 @@ class GameBoard {
     return true;
   }
 
-  getPosition(row, col) {
-    if (this.isValidPosition(row, col)) {
-      return this.grid[row][col];
+  receiveAttack(row, col) {
+    if (this.grid[row][col] !== null) {
+      const ship = this.grid[row][col];
+      ship.hit();
+      return "hit";
+    } else {
+      this.grid[row][col] = "miss";
+      return "missed";
     }
-    return null;
   }
 
   displayGrid() {
     const table = this.grid.map((row) =>
-      row.map((cell) => (cell === null ? " " : cell))
+      row.map(
+        (cell) =>
+          cell === null
+            ? " " // Empty cell
+            : cell === "miss"
+            ? "M" // Missed attack
+            : cell === "hit"
+            ? "H" // Hit attack
+            : cell === "X"
+            ? "X" // Prohibited area
+            : "S" // Ship present
+      )
     );
-    console.table(table);
+    return table;
   }
 }
 
-// Example usage:
-const gameBoard = new GameBoard();
-gameBoard.placeShip(2, 3, 4, "horizontal");
-gameBoard.placeShip(4, 5, 3, "vertical");
-gameBoard.displayGrid();
+module.exports = GameBoard;
