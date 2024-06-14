@@ -86,29 +86,30 @@ class GameBoard {
   }
 
   receiveAttack(row, col) {
-    if (this.grid[row][col] !== null) {
+    if (this.grid[row][col] instanceof Ship) {
       const ship = this.grid[row][col];
       ship.hit();
+      this.grid[row][col] = "H";
+      ship.isSunk();
       return "hit";
     } else {
-      this.grid[row][col] = "miss";
+      this.grid[row][col] = "M";
       return "missed";
     }
   }
 
   displayGrid() {
     const table = this.grid.map((row) =>
-      row.map(
-        (cell) =>
-          cell === null
-            ? " " // Empty cell
-            : cell === "miss"
-            ? "M" // Missed attack
-            : cell === "hit"
-            ? "H" // Hit attack
-            : cell === "X"
-            ? "X" // Prohibited area
-            : "S" // Ship present
+      row.map((cell) =>
+        cell instanceof Ship
+          ? "S"
+          : cell === "M"
+          ? "M"
+          : cell === "H"
+          ? "H"
+          : cell === "X"
+          ? "X"
+          : " "
       )
     );
     return table;
