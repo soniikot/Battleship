@@ -65,6 +65,8 @@ describe("Gameboard class", () => {
     expect(board.receiveAttack(9, 0)).toBe("hit");
     expect(board.receiveAttack(9, 1)).toBe("hit");
     expect(board.receiveAttack(9, 2)).toBe("hit");
+
+    expect(expect(board.checkWinners()).toBe("game over"));
     expect(board.displayGrid()).toEqual([
       ["H", "H", "X", " ", " ", " ", " ", " ", " ", " "],
       ["X", "X", "X", " ", " ", " ", " ", " ", " ", " "],
