@@ -90,7 +90,7 @@ class GameBoard {
       const ship = this.grid[row][col];
       ship.hit();
       this.grid[row][col] = "H";
-      this.checkwinners();
+      this.checkWinners();
       return "hit";
     } else {
       this.grid[row][col] = "M";
@@ -98,9 +98,8 @@ class GameBoard {
     }
   }
 
-  checkwinners() {
-    if (this.ships.every((ship) => ship.isSunk())) {
-      console.log(this.ships.every((ship) => ship.isSunk()));
+  checkWinners() {
+    if (this.ships.every((ship) => ship.isSunkStatus === true)) {
       return "game over";
     }
   }
