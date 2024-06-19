@@ -1,4 +1,4 @@
-const Gameboard = require("./gameboard");
+const Gameboard = require("./Gameboard");
 
 beforeEach(() => {
   board = new Gameboard();

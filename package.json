@@ -4,7 +4,7 @@
   "description": "battleship game for The Odin Project",
   "main": "index.js",
   "scripts": {
-    "test":   "jest"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/soniikot/Battleship#readme",
   "devDependencies": {
+    "@babel/preset-env": "^7.24.7",
+    "babel-jest": "^29.7.0",
     "html-webpack-plugin": "^5.6.0",
     "jest": "^29.7.0",
     "webpack": "^5.91.0",
