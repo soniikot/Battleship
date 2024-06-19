@@ -1,11 +1,8 @@
-const Player = require("./player");
-
-beforeEach(() => {
-  computerPlayer = new Player(null, true);
-  humanPlayer = new Player("Sofia");
-});
+import Player from "./player";
 
 describe("Player Class", () => {
+  const computerPlayer = new Player(null, true);
+  const humanPlayer = new Player("Sofia");
   test("players can place ships", () => {
     expect(computerPlayer.placeShipRandomly()).toBe("ship placed");
     expect(humanPlayer.gameBoard.placeShip(0, 0, 1, "horizontal")).toBe(

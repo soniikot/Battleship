@@ -1,5 +1,5 @@
-const Gameboard = require("./Gameboard");
-
+import Gameboard from "./Gameboard";
+let board;
 beforeEach(() => {
   board = new Gameboard();
 });
