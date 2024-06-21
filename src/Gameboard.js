@@ -1,10 +1,8 @@
 import Ship from "./ship.js";
 
 class GameBoard {
-  constructor() {
-    this.grid = this.createGrid();
-    this.ships = [];
-  }
+  grid = this.createGrid();
+  ships = [];
 
   createGrid() {
     const grid = [];

@@ -1,10 +1,10 @@
-import GameBoard from "./Gameboard";
+import GameBoard from "./Gameboard.js";
 
 class Player {
+  gameBoard = new GameBoard();
   constructor(name, isComputer = false) {
     this.name = isComputer ? "Computer" : name;
     this.isComputer = isComputer;
-    this.gameBoard = new GameBoard();
   }
   placeShipRandomly() {
     const { row, col, length, direction } = this.getRandomDataToPlaceShip();
