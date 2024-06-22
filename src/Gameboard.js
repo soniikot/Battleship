@@ -118,6 +118,37 @@ class GameBoard {
     );
     return table;
   }
+
+  renderGrid(container) {
+    const table = document.createElement("table");
+    const tableData = this.displayGrid();
+
+    tableData.forEach((rowData) => {
+      const row = document.createElement("tr");
+      rowData.forEach((cellData) => {
+        const cell = document.createElement("td");
+        cell.textContent = cellData;
+
+        switch (cellData) {
+          case "M":
+            cell.className = "miss";
+            break;
+          case "H":
+            cell.className = "hit";
+            break;
+          case "X":
+            cell.className = "special";
+            break;
+          default:
+            cell.className = "empty";
+        }
+
+        row.appendChild(cell);
+      });
+      table.appendChild(row);
+      container.appendChild(table);
+    });
+  }
 }
 
 export default GameBoard;

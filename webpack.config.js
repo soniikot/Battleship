@@ -2,6 +2,7 @@ import { resolve } from "path";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
 const mode = process.env.NODE_ENV ?? "development";
 const isWatch = process.env.NODE_ENV === "development" ? true : false;
@@ -22,8 +23,17 @@ export default {
       title: "index.html",
       template: "src/index.html",
     }),
+    new MiniCssExtractPlugin({
+      filename: "css/[name].css",
+      chunkFilename: "[id].css",
+    }),
   ],
   module: {
-    rules: [],
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+    ],
   },
 };
