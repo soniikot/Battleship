@@ -2,29 +2,45 @@ import GameBoard from "./Gameboard.js";
 import Player from "./player.js";
 import Ship from "./ship.js";
 import "./style.css";
+import { handleDragStart } from "./drugAndDrop.js";
+import { shipCollection } from "./helpers/constrants.js";
 
 import _ from "lodash";
-const game = {
+export const game = {
   humanPlayer: null,
   computerPlayer: null,
 };
+const wrapper = document.querySelector(".wrapper");
 const createPlayers = () => {
   const input = document.getElementById("name");
   game.computerPlayer = new Player(null, true);
   game.humanPlayer = new Player(input.value);
   console.log("players works");
 };
-const shipCollection = {
-  aircraftCarrier: new Ship(5),
-  battleShip: new Ship(4),
-  cruiser: new Ship(3),
-  submarine: new Ship(3),
-  destroyer: new Ship(2),
+
+const startPlacingShips = () => {
+  const shipContainer = document.createElement("div");
+  shipContainer.innerHTML = "";
+
+  Object.entries(shipCollection).forEach(([shipName, ship]) => {
+    const shipElement = document.createElement("div");
+    shipElement.classList.add("ship");
+    shipElement.draggable = true;
+    shipElement.dataset.ship = shipName;
+
+    for (let i = 0; i < ship.length; i++) {
+      const cell = document.createElement("div");
+      cell.classList.add("ship-cell");
+      shipElement.appendChild(cell);
+    }
+    wrapper.appendChild(shipContainer);
+    shipContainer.appendChild(shipElement);
+
+    shipElement.addEventListener("dragstart", handleDragStart);
+  });
 };
-const startPlacingships = () => {};
 
 const showBoards = () => {
-  const wrapper = document.querySelector(".wrapper");
   wrapper.innerHTML = "";
 
   const humanBoard = document.createElement("div");
@@ -45,8 +61,7 @@ const showBoards = () => {
   computerBoard.appendChild(titleComputerboard);
   computerBoard.classList.add("RenderedBoard");
   game.computerPlayer.gameBoard.renderGrid(computerBoard);
-  //startPlacingships();
-  console.log("boardd works");
+  startPlacingShips();
 };
 const startGameBtn = document.getElementById("startGame");
 startGameBtn.addEventListener("click", createPlayers);

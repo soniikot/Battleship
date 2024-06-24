@@ -1,4 +1,6 @@
 import Ship from "./ship.js";
+import { handleDrop } from "./drugAndDrop.js";
+import { handleDragOver } from "./drugAndDrop.js";
 
 class GameBoard {
   grid = this.createGrid();
@@ -120,12 +122,8 @@ class GameBoard {
   }
 
   renderGrid(container) {
-    console.log("Rendering grid into container:");
-
     const table = document.createElement("table");
     const tableData = this.displayGrid();
-
-    console.log("Table data:", tableData);
 
     tableData.forEach((rowData, rowIndex) => {
       const row = document.createElement("tr");
@@ -134,6 +132,8 @@ class GameBoard {
         cell.textContent = cellData;
         cell.dataset.row = rowIndex;
         cell.dataset.col = colIndex;
+        cell.addEventListener("dragover", handleDragOver);
+        cell.addEventListener("drop", handleDrop);
 
         switch (cellData) {
           case "M":
@@ -149,19 +149,13 @@ class GameBoard {
             cell.className = "empty";
         }
 
-        console.log(
-          `Appending cell at row ${rowIndex}, col ${colIndex}:`,
-          cell
-        );
         row.appendChild(cell);
       });
-      console.log(`Appending row ${rowIndex}:`, row);
-      table.appendChild(row);
-    });
 
-    console.log("Final table:", table);
-    container.appendChild(table);
-    console.log("Table appended to container.");
+      table.appendChild(row);
+
+      container.appendChild(table);
+    });
   }
 }
 

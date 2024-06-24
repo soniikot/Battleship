@@ -1,3 +1,6 @@
+import { shipCollection } from "./helpers/constrants.js";
+import { game } from "./main.js";
+
 export const handleDragStart = (event) => {
   event.dataTransfer.setData("text/plain", event.target.dataset.ship);
 };
@@ -18,7 +21,7 @@ export const handleDrop = (event) => {
     game.humanPlayer.gameBoard.placeShip(row, col, ship.length, direction) ===
     "ship placed"
   ) {
-    const humanBoardContainer = document.getElementById("human-board");
+    const humanBoardContainer = document.getElementById("RenderedHumanBoard");
     humanBoardContainer.innerHTML = "";
     game.humanPlayer.gameBoard.renderGrid(humanBoardContainer);
   } else {
