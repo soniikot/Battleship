@@ -120,14 +120,20 @@ class GameBoard {
   }
 
   renderGrid(container) {
+    console.log("Rendering grid into container:");
+
     const table = document.createElement("table");
     const tableData = this.displayGrid();
 
-    tableData.forEach((rowData) => {
+    console.log("Table data:", tableData);
+
+    tableData.forEach((rowData, rowIndex) => {
       const row = document.createElement("tr");
-      rowData.forEach((cellData) => {
+      rowData.forEach((cellData, colIndex) => {
         const cell = document.createElement("td");
         cell.textContent = cellData;
+        cell.dataset.row = rowIndex;
+        cell.dataset.col = colIndex;
 
         switch (cellData) {
           case "M":
@@ -143,11 +149,19 @@ class GameBoard {
             cell.className = "empty";
         }
 
+        console.log(
+          `Appending cell at row ${rowIndex}, col ${colIndex}:`,
+          cell
+        );
         row.appendChild(cell);
       });
+      console.log(`Appending row ${rowIndex}:`, row);
       table.appendChild(row);
-      container.appendChild(table);
     });
+
+    console.log("Final table:", table);
+    container.appendChild(table);
+    console.log("Table appended to container.");
   }
 }
 

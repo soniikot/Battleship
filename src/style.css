@@ -1,19 +1,27 @@
-h1 {
-  color: red;
+* {
+  box-sizing: border-box;
 }
 
+h1 {
+  color: red;
+  text-align: center;
+}
+
+.wrapper {
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+}
 table {
   border-collapse: collapse;
 }
 td {
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   text-align: center;
   border: 1px solid black;
 }
-.ship {
-  background-color: lightblue;
-}
+
 .miss {
   background-color: lightgray;
 }
@@ -25,4 +33,29 @@ td {
 }
 .empty {
   background-color: white;
+}
+
+td:hover {
+  background-color: purple;
+}
+
+.ship {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+}
+
+.ship.horizontal {
+  flex-direction: row;
+}
+
+.ship.vertical {
+  flex-direction: column;
+}
+
+.ship-cell {
+  width: 25px;
+  height: 25px;
+  background-color: rgb(78, 83, 208);
+  border: 1px solid black;
 }
