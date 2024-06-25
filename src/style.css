@@ -23,7 +23,7 @@ td {
 }
 
 .miss {
-  background-color: lightgray;
+  background-color: rgb(78, 83, 208);
 }
 .hit {
   background-color: red;

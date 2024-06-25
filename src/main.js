@@ -17,10 +17,10 @@ const createPlayers = () => {
   game.humanPlayer = new Player(input.value);
   console.log("players works");
 };
-
-const startPlacingShips = () => {
+export const placedShips = new Set();
+const playerPlaceShips = () => {
   const shipContainer = document.createElement("div");
-  shipContainer.innerHTML = "";
+  shipContainer.id = "ship-container";
 
   Object.entries(shipCollection).forEach(([shipName, ship]) => {
     const shipElement = document.createElement("div");
@@ -61,8 +61,18 @@ const showBoards = () => {
   computerBoard.appendChild(titleComputerboard);
   computerBoard.classList.add("RenderedBoard");
   game.computerPlayer.gameBoard.renderGrid(computerBoard);
-  startPlacingShips();
+  playerPlaceShips();
+};
+const activePlayer = () => {
+  activePlayer === humanPlayer ? computerPlayer : humanPlayer;
+};
+const startRound = () => {
+  humanPlayer.gameBoard.placeShip(0, 0, 1, "horizontal");
 };
 const startGameBtn = document.getElementById("startGame");
 startGameBtn.addEventListener("click", createPlayers);
 startGameBtn.addEventListener("click", showBoards);
+
+if (placedShips.size === 5) {
+  startRound();
+}

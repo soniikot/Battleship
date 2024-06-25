@@ -136,6 +136,8 @@ class GameBoard {
         cell.addEventListener("drop", handleDrop);
 
         switch (cellData) {
+          case "S":
+            cell.className = "ship-cell";
           case "M":
             cell.className = "miss";
             break;
