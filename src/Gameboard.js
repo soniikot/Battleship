@@ -1,6 +1,6 @@
 import Ship from "./ship.js";
-import { handleDrop } from "./dragAndDrop.js";
-import { handleDragOver } from "./dragAndDrop.js";
+import { handleDrop } from "./DragDrop.js";
+import { handleDragOver } from "./DragDrop.js";
 
 class GameBoard {
   grid = this.createGrid();
