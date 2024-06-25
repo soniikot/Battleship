@@ -2,7 +2,7 @@ import GameBoard from "./Gameboard.js";
 import Player from "./player.js";
 import Ship from "./ship.js";
 import "./style.css";
-import { handleDragStart } from "./drugAndDrop.js";
+import { handleDragStart } from "./dragAndDrop.js";
 import { shipCollection } from "./helpers/constrants.js";
 
 import _ from "lodash";
@@ -15,10 +15,9 @@ const createPlayers = () => {
   const input = document.getElementById("name");
   game.computerPlayer = new Player(null, true);
   game.humanPlayer = new Player(input.value);
-  console.log("players works");
 };
-export const placedShips = new Set();
-const playerPlaceShips = () => {
+export const placedHumanShips = new Set();
+const playerPlacingShips = () => {
   const shipContainer = document.createElement("div");
   shipContainer.id = "ship-container";
 
@@ -61,18 +60,20 @@ const showBoards = () => {
   computerBoard.appendChild(titleComputerboard);
   computerBoard.classList.add("RenderedBoard");
   game.computerPlayer.gameBoard.renderGrid(computerBoard);
-  playerPlaceShips();
+  game.computerPlayer.computerPlacingShips(computerBoard);
+
+  playerPlacingShips();
 };
 const activePlayer = () => {
   activePlayer === humanPlayer ? computerPlayer : humanPlayer;
 };
 const startRound = () => {
-  humanPlayer.gameBoard.placeShip(0, 0, 1, "horizontal");
+  computerBoard.receiveAttack(0, 0);
 };
 const startGameBtn = document.getElementById("startGame");
 startGameBtn.addEventListener("click", createPlayers);
 startGameBtn.addEventListener("click", showBoards);
 
-if (placedShips.size === 5) {
+if (placedHumanShips.size === 5) {
   startRound();
 }

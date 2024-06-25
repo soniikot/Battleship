@@ -1,6 +1,6 @@
 import { shipCollection } from "./helpers/constrants.js";
 import { game } from "./main.js";
-import { placedShips } from "./main.js";
+import { placedHumanShips } from "./main.js";
 
 export const handleDragStart = (event) => {
   event.dataTransfer.setData("text/plain", event.target.dataset.ship);
@@ -14,8 +14,7 @@ export const handleDrop = (event) => {
   event.preventDefault();
   const shipName = event.dataTransfer.getData("text/plain");
 
-  if (placedShips.has(shipName)) {
-    console.log(`Ship ${shipName} has already been placed.`);
+  if (placedHumanShips.has(shipName)) {
     return;
   }
   const ship = shipCollection[shipName];
@@ -29,12 +28,16 @@ export const handleDrop = (event) => {
   ) {
     const humanBoardContainer = document.getElementById("RenderedHumanBoard");
     humanBoardContainer.innerHTML = "";
+
     const titleHumanBoard = document.createElement("div");
+
     titleHumanBoard.textContent = `${game.humanPlayer.name}'s Board`;
+
     humanBoardContainer.appendChild(titleHumanBoard);
+
     game.humanPlayer.gameBoard.renderGrid(humanBoardContainer);
 
-    placedShips.add(shipName);
+    placedHumanShips.add(shipName);
 
     const shipElement = document.querySelector(
       `.ship[data-ship="${shipName}"]`
