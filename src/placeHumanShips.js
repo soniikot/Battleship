@@ -1,7 +1,8 @@
 import { shipCollection } from "./helpers/constrants.js";
+
 import { renderHumanBoard } from "./GUI.js";
-import { game } from "./gameMechanics.js";
-import { startRound } from "./gameMechanics.js";
+
+import { game, startRound } from "./gameMechanics.js";
 
 export const handleDragStart = (event) => {
   event.dataTransfer.setData("text/plain", event.target.dataset.ship);

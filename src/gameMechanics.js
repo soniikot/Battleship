@@ -1,6 +1,6 @@
 import Player from "./player.js";
 import GameBoard from "./Gameboard.js";
-import { getCoordinates } from "./GUI.js";
+import { getCoordinates, renderComputerBoard } from "./GUI.js";
 
 export const game = {
   humanPlayer: null,
@@ -15,7 +15,14 @@ export const createPlayers = () => {
 };
 
 export const startRound = () => {
-  console.log(game.computerPlayer);
-  getCoordinates();
-  // game.computerPlayer.gameBoard.receiveAttack();
+  const computerBoard = document.getElementById("renderedComputerBoard");
+  if (computerBoard) {
+    getCoordinates(computerBoard).then(({ row, col }) => {
+      console.log(game.computerPlayer.gameBoard.receiveAttack(row, col));
+      computerBoard.innerHTML = "";
+      renderComputerBoard();
+
+      console.log(game);
+    });
+  }
 };

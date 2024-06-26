@@ -120,7 +120,7 @@ class GameBoard {
     return table;
   }
 
-  renderGrid(container) {
+  renderGridForHuman(container) {
     const table = document.createElement("table");
     const tableData = this.displayGrid();
 
@@ -137,6 +137,7 @@ class GameBoard {
         switch (cellData) {
           case "S":
             cell.className = "ship-cell";
+            break;
           case "M":
             cell.className = "miss";
             break;
@@ -150,6 +151,40 @@ class GameBoard {
             cell.className = "empty";
         }
 
+        row.appendChild(cell);
+      });
+
+      table.appendChild(row);
+
+      container.appendChild(table);
+    });
+  }
+
+  renderGridForComputer(container) {
+    const table = document.createElement("table");
+    const tableData = this.displayGrid();
+
+    tableData.forEach((rowData, rowIndex) => {
+      const row = document.createElement("tr");
+      rowData.forEach((cellData, colIndex) => {
+        const cell = document.createElement("td");
+        cell.textContent = cellData;
+        cell.dataset.row = rowIndex;
+        cell.dataset.col = colIndex;
+
+        switch (cellData) {
+          case "M":
+            cell.textContent = "M";
+            cell.className = "miss";
+            break;
+          case "H":
+            cell.textContent = "H";
+            cell.className = "hit";
+            break;
+          default:
+            cell.textContent = "";
+            cell.className = "hidden";
+        }
         row.appendChild(cell);
       });
 

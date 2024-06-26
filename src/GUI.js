@@ -1,38 +1,54 @@
 import { shipCollection } from "./helpers/constrants.js";
 import { handleDragStart } from "./placeHumanShips.js";
 import { game } from "./gameMechanics.js";
+
 const wrapper = document.querySelector(".wrapper");
+
 export const renderBoardsforTheFirstTime = () => {
   wrapper.innerHTML = "";
 
+  const humanBoardWrapper = document.createElement("div");
+
   const humanBoard = document.createElement("div");
+
   const titleHumanBoard = document.createElement("div");
+
   titleHumanBoard.textContent = `${game.humanPlayer.name}'s Board`;
   humanBoard.id = "RenderedHumanBoard";
-  humanBoard.classList.add("RenderedBoard");
 
-  wrapper.appendChild(humanBoard);
-  humanBoard.appendChild(titleHumanBoard);
-  game.humanPlayer.gameBoard.renderGrid(humanBoard);
+  humanBoard.classList.add("RenderedBoard");
+  wrapper.appendChild(humanBoardWrapper);
+  humanBoardWrapper.appendChild(titleHumanBoard);
+
+  humanBoardWrapper.appendChild(humanBoard);
+
+  game.humanPlayer.gameBoard.renderGridForHuman(humanBoard);
+
+  const computerBoardWrapper = document.createElement("div");
 
   const computerBoard = document.createElement("div");
+
+  const titleComputerBoard = document.createElement("div");
+  titleComputerBoard.textContent = `Enemy's Board`;
   computerBoard.id = "renderedComputerBoard";
-  const titleComputerboard = document.createElement("div");
-  titleComputerboard.textContent = `Enemy's Board`;
-  wrapper.appendChild(computerBoard);
-  computerBoard.appendChild(titleComputerboard);
+  wrapper.appendChild(computerBoardWrapper);
+  computerBoardWrapper.appendChild(titleComputerBoard);
+  computerBoardWrapper.appendChild(computerBoard);
+
   computerBoard.classList.add("RenderedBoard");
-  game.computerPlayer.gameBoard.renderGrid(titleComputerboard);
+  game.computerPlayer.gameBoard.renderGridForComputer(computerBoard);
 };
 export const renderHumanBoard = () => {
-  const humanBoardContainer = document.getElementById("RenderedHumanBoard");
-  humanBoardContainer.innerHTML = "";
+  const humanBoard = document.getElementById("RenderedHumanBoard");
+  humanBoard.innerHTML = "";
+  console.log(game.humanPlayer);
+  game.humanPlayer.gameBoard.renderGridForHuman(humanBoard);
+};
 
-  const titleHumanBoard = document.createElement("div");
-  titleHumanBoard.textContent = `${game.humanPlayer.name}'s Board`;
-  humanBoardContainer.appendChild(titleHumanBoard);
-
-  game.humanPlayer.gameBoard.renderGrid(humanBoardContainer);
+export const renderComputerBoard = () => {
+  const computerBoard = document.getElementById("renderedComputerBoard");
+  computerBoard.innerHTML = "";
+  game.computerPlayer.gameBoard.renderGridForComputer(computerBoard);
 };
 
 export const createShipContainer = () => {
@@ -58,14 +74,22 @@ export const createShipContainer = () => {
   wrapper.appendChild(shipContainer);
 };
 
-export const getCoordinates = () => {
-  const computerBoard = document.getElementById("renderedComputerBoard");
-  computerBoard.addEventListener("click", (event) => {
-    const cell = event.target.closest(".cell");
+export const getCoordinates = (computerBoard) => {
+  if (!computerBoard) return;
 
-    const row = parseInt(cell.dataset.row, 10);
-    const col = parseInt(cell.dataset.col, 10);
-    console.log(col);
-    return row, col;
+  return new Promise((resolve) => {
+    computerBoard.addEventListener("click", (event) => {
+      let currentElement = event.target;
+
+      while (currentElement && !currentElement.dataset.row) {
+        currentElement = currentElement.parentNode;
+      }
+
+      if (currentElement && currentElement.dataset) {
+        const row = parseInt(currentElement.dataset.row, 10);
+        const col = parseInt(currentElement.dataset.col, 10);
+        resolve({ row, col });
+      }
+    });
   });
 };

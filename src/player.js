@@ -7,8 +7,8 @@ class Player {
     this.name = isComputer ? "Computer" : name;
     this.isComputer = isComputer;
   }
-  computerPlacingShips(gameBoard) {
-    Object.values(shipCollection).forEach((ship, index) => {
+  computerPlacingShips() {
+    Object.values(shipCollection).forEach((ship) => {
       let placed = false;
       while (!placed) {
         const direction = Math.random() > 0.5 ? "horizontal" : "vertical";
