@@ -99,7 +99,7 @@ class GameBoard {
 
   checkWinners() {
     if (this.ships.every((ship) => ship.isSunkStatus === true)) {
-      return "game over";
+      return true;
     }
   }
 

@@ -93,3 +93,27 @@ export const getCoordinates = (computerBoard) => {
     });
   });
 };
+
+export const displayGameOverMessage = (outcome) => {
+  const GameOverMessage = document.createElement("div");
+  GameOverMessage.classList.add("game-over-message");
+
+  let message;
+  switch (outcome) {
+    case "humanPlayerWin":
+      message = "You win! Congratulations!";
+      break;
+    case "computerPlayerWin":
+      message = "Computer wins! Better luck next time!";
+      break;
+    case "Draw":
+      message = "It's a draw! Well played!";
+      break;
+    default:
+      message = "Unknown outcome";
+  }
+
+  GameOverMessage.textContent = message;
+
+  document.body.appendChild(GameOverMessage);
+};

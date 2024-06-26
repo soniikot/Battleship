@@ -4,6 +4,7 @@ import {
   getCoordinates,
   renderComputerBoard,
   renderHumanBoard,
+  displayGameOverMessage,
 } from "./GUI.js";
 
 export const game = {
@@ -27,15 +28,31 @@ const switchPlayer = () => {
 export const startRound = () => {
   const computerBoard = document.getElementById("renderedComputerBoard");
 
-  if (computerBoard) {
-    getCoordinates(computerBoard).then(({ row, col }) => {
-      game.computerPlayer.gameBoard.receiveAttack(row, col);
-      computerBoard.innerHTML = "";
-      renderComputerBoard();
-      switchPlayer();
-      console.log(game.currentPlayer);
-      game.humanPlayer.computerAttacks();
-      renderHumanBoard();
-    });
-  }
+  getCoordinates(computerBoard).then(({ row, col }) => {
+    game.computerPlayer.gameBoard.receiveAttack(row, col);
+    computerBoard.innerHTML = "";
+    renderComputerBoard();
+    switchPlayer();
+
+    game.humanPlayer.computerAttacks();
+
+    renderHumanBoard();
+
+    switchPlayer();
+
+    if (game.computerPlayer.gameBoard.checkWinners() === true) {
+      displayGameOverMessage("humanPlayerWin");
+    } else if (game.humanPlayer.gameBoard.checkWinners() === true) {
+      displayGameOverMessage("computerPlayerWin");
+    } else if (
+      game.computerPlayer.gameBoard.grid.every((array) =>
+        array.every((element) => element !== null)
+      )
+    ) {
+      console.log(game.computerPlayer.gameBoard.grid);
+      displayGameOverMessage("Draw");
+    } else {
+      startRound();
+    }
+  });
 };
