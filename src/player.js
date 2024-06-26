@@ -24,6 +24,12 @@ class Player {
       }
     });
   }
+
+  computerAttacks() {
+    const row = Math.floor(Math.random() * 9);
+    const col = Math.floor(Math.random() * 9);
+    this.gameBoard.receiveAttack(row, col);
+  }
 }
 
 export default Player;

@@ -41,7 +41,7 @@ export const renderBoardsforTheFirstTime = () => {
 export const renderHumanBoard = () => {
   const humanBoard = document.getElementById("RenderedHumanBoard");
   humanBoard.innerHTML = "";
-  console.log(game.humanPlayer);
+
   game.humanPlayer.gameBoard.renderGridForHuman(humanBoard);
 };
 
