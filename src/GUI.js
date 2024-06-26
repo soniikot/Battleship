@@ -1,7 +1,29 @@
-import { game } from "./main.js";
 import { shipCollection } from "./helpers/constrants.js";
-import { handleDragStart } from "./DragDrop.js";
+import { handleDragStart } from "./placeHumanShips.js";
+import { game } from "./gameMechanics.js";
+const wrapper = document.querySelector(".wrapper");
+export const renderBoardsforTheFirstTime = () => {
+  wrapper.innerHTML = "";
 
+  const humanBoard = document.createElement("div");
+  const titleHumanBoard = document.createElement("div");
+  titleHumanBoard.textContent = `${game.humanPlayer.name}'s Board`;
+  humanBoard.id = "RenderedHumanBoard";
+  humanBoard.classList.add("RenderedBoard");
+
+  wrapper.appendChild(humanBoard);
+  humanBoard.appendChild(titleHumanBoard);
+  game.humanPlayer.gameBoard.renderGrid(humanBoard);
+
+  const computerBoard = document.createElement("div");
+  computerBoard.id = "renderedComputerBoard";
+  const titleComputerboard = document.createElement("div");
+  titleComputerboard.textContent = `Enemy's Board`;
+  wrapper.appendChild(computerBoard);
+  computerBoard.appendChild(titleComputerboard);
+  computerBoard.classList.add("RenderedBoard");
+  game.computerPlayer.gameBoard.renderGrid(titleComputerboard);
+};
 export const renderHumanBoard = () => {
   const humanBoardContainer = document.getElementById("RenderedHumanBoard");
   humanBoardContainer.innerHTML = "";
@@ -13,8 +35,7 @@ export const renderHumanBoard = () => {
   game.humanPlayer.gameBoard.renderGrid(humanBoardContainer);
 };
 
-export const startPlacingShips = () => {
-  const wrapper = document.querySelector(".wrapper");
+export const createShipContainer = () => {
   const shipContainer = document.createElement("div");
   shipContainer.id = "ship-container";
 
@@ -35,4 +56,16 @@ export const startPlacingShips = () => {
   });
 
   wrapper.appendChild(shipContainer);
+};
+
+export const getCoordinates = () => {
+  const computerBoard = document.getElementById("renderedComputerBoard");
+  computerBoard.addEventListener("click", (event) => {
+    const cell = event.target.closest(".cell");
+
+    const row = parseInt(cell.dataset.row, 10);
+    const col = parseInt(cell.dataset.col, 10);
+    console.log(col);
+    return row, col;
+  });
 };

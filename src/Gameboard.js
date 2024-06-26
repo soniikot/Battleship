@@ -1,6 +1,5 @@
 import Ship from "./ship.js";
-import { handleDrop } from "./DragDrop.js";
-import { handleDragOver } from "./DragDrop.js";
+import { dropHumanShips, handleDragOver } from "./placeHumanShips.js";
 
 class GameBoard {
   grid = this.createGrid();
@@ -133,7 +132,7 @@ class GameBoard {
         cell.dataset.row = rowIndex;
         cell.dataset.col = colIndex;
         cell.addEventListener("dragover", handleDragOver);
-        cell.addEventListener("drop", handleDrop);
+        cell.addEventListener("drop", dropHumanShips);
 
         switch (cellData) {
           case "S":

@@ -1,7 +1,7 @@
 import { shipCollection } from "./helpers/constrants.js";
-import { game } from "./main.js";
-import { placedHumanShips } from "./main.js";
 import { renderHumanBoard } from "./GUI.js";
+import { game } from "./gameMechanics.js";
+import { startRound } from "./gameMechanics.js";
 
 export const handleDragStart = (event) => {
   event.dataTransfer.setData("text/plain", event.target.dataset.ship);
@@ -10,8 +10,9 @@ export const handleDragStart = (event) => {
 export const handleDragOver = (event) => {
   event.preventDefault();
 };
+const placedHumanShips = new Set();
 
-export const handleDrop = (event) => {
+export const dropHumanShips = (event) => {
   event.preventDefault();
   const shipName = event.dataTransfer.getData("text/plain");
 
@@ -32,6 +33,10 @@ export const handleDrop = (event) => {
     );
     if (shipElement) {
       shipElement.remove();
+    }
+
+    if (placedHumanShips.size === 5) {
+      startRound();
     }
   }
 };
