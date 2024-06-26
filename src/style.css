@@ -23,7 +23,7 @@ td {
 }
 
 .miss {
-  background-color: rgb(78, 83, 208);
+  background-color: rgb(78, 208, 119);
 }
 .hit {
   background-color: red;
@@ -33,6 +33,9 @@ td {
 }
 .empty {
   background-color: white;
+}
+.ship-cell {
+  background-color: rgb(9, 1, 255);
 }
 
 td:hover {

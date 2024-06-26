@@ -7,8 +7,8 @@ class Player {
     this.name = isComputer ? "Computer" : name;
     this.isComputer = isComputer;
   }
-  computerPlacingShips(gameBoard) {
-    Object.values(shipCollection).forEach((ship, index) => {
+  computerPlacingShips() {
+    Object.values(shipCollection).forEach((ship) => {
       let placed = false;
       while (!placed) {
         const direction = Math.random() > 0.5 ? "horizontal" : "vertical";
@@ -24,29 +24,12 @@ class Player {
       }
     });
   }
-  /*placeShipRandomly() {
-    const { row, col, length, direction } = this.getRandomDataToPlaceShip();
-    const computerPlacedShips = new Set();
 
-    return this.gameBoard.placeShip(row, col, length, direction);
-  }
-
-  getRandomDataToPlaceShip() {
+  computerAttacks() {
     const row = Math.floor(Math.random() * 9);
     const col = Math.floor(Math.random() * 9);
-
-    const length = () => {
-      {
-        const shipKeys = Object.keys(shipCollection);
-        const randomIndex = Math.floor(Math.random() * shipKeys.length);
-        const randomShipKey = shipKeys[randomIndex];
-        console.log(shipCollection[randomShipKey].length);
-        return shipCollection[randomShipKey].length;
-      }
-    };
-    const direction = Math.random() < 0.5 ? "horizontal" : "vertical";
-    return { row, col, length, direction };
-  }*/
+    this.gameBoard.receiveAttack(row, col);
+  }
 }
 
 export default Player;
