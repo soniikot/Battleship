@@ -12,9 +12,11 @@ h1 {
   gap: 50px;
   justify-content: center;
 }
+
 table {
   border-collapse: collapse;
 }
+
 td {
   width: 25px;
   height: 25px;
@@ -25,15 +27,19 @@ td {
 .miss {
   background-color: rgb(78, 208, 119);
 }
+
 .hit {
   background-color: red;
 }
+
 .special {
   background-color: yellow;
 }
+
 .empty {
   background-color: white;
 }
+
 .ship-cell {
   background-color: rgb(9, 1, 255);
 }

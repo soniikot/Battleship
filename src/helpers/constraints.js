@@ -1,4 +1,4 @@
-import Ship from "../ship.js";
+import Ship from "../models/ship.js";
 
 export const shipCollection = {
   aircraftCarrier: new Ship(5),
