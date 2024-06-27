@@ -1,16 +1,14 @@
-import {renderBoardsForTheFirstTime} from "./views/gameView.js";
+import { createBoardContainers } from "./views/gameView.js";
 import "./style.css";
-import {createPlayers} from "./controllers/gameController.js";
-import {game} from "./controllers/gameController.js";
-import {createShipContainer} from "./views/gameView.js";
-// import {startRound} from "./controllers/gameController.js";
-// import { dropHumanShips } from "./placeHumanShips.js";
+import { createPlayers } from "./controllers/gameController.js";
+import { game } from "./controllers/gameController.js";
+import { createShipContainer } from "./views/gameView.js";
 
-const startGameBtn = document.getElementById( "startGame" );
+const startGameBtn = document.getElementById("startGame");
 
 startGameBtn.addEventListener("click", () => {
   createPlayers();
-  renderBoardsForTheFirstTime();
+  createBoardContainers();
   createShipContainer();
   game.computerPlayer.computerPlacingShips();
 });

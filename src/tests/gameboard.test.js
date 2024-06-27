@@ -1,4 +1,4 @@
-import Gameboard from "../Gameboard.js";
+import Gameboard from "../gameboard.js";
 let board;
 beforeEach(() => {
   board = new Gameboard();

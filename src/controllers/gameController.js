@@ -1,8 +1,5 @@
-import Player from "../models/player.js";
-import GameBoard from "../models/gameboard.js";
-import {shipCollection} from "../helpers/constraints.js";
-import {renderHumanBoard} from "../views/gameView.js";
-import {Game} from '../models/game.js';
+import { shipCollection } from "../helpers/constraints.js";
+import { Game } from "../models/game.js";
 
 import {
   getCoordinates,
@@ -11,12 +8,11 @@ import {
   displayGameOverMessage,
 } from "../views/gameView.js";
 
-
-let game;
+export let game;
 
 export const createPlayers = () => {
-  const input = document.getElementById( "name" );
-  game = new Game( input )
+  const input = document.getElementById("name");
+  game = new Game(input.value);
 };
 
 const switchPlayer = () => {
@@ -27,10 +23,10 @@ const switchPlayer = () => {
 };
 
 export const startRound = () => {
-  const computerBoard = document.getElementById( "renderedComputerBoard" );
+  const computerBoard = document.getElementById("renderedComputerBoard");
 
-  getCoordinates( computerBoard ).then( ( {row, col} ) => {
-    game.computerPlayer.gameBoard.receiveAttack( row, col );
+  getCoordinates(computerBoard).then(({ row, col }) => {
+    game.computerPlayer.gameBoard.receiveAttack(row, col);
     computerBoard.innerHTML = "";
     renderComputerBoard();
     switchPlayer();
@@ -41,63 +37,59 @@ export const startRound = () => {
 
     switchPlayer();
 
-    if ( game.computerPlayer.gameBoard.checkWinners() === true ) {
-      displayGameOverMessage( "humanPlayerWin" );
-    } else if ( game.humanPlayer.gameBoard.checkWinners() === true ) {
-      displayGameOverMessage( "computerPlayerWin" );
+    if (game.computerPlayer.gameBoard.checkWinners() === true) {
+      displayGameOverMessage("humanPlayerWin");
+    } else if (game.humanPlayer.gameBoard.checkWinners() === true) {
+      displayGameOverMessage("computerPlayerWin");
     } else if (
-      game.computerPlayer.gameBoard.grid.every( ( array ) =>
-        array.every( ( element ) => element !== null )
+      game.computerPlayer.gameBoard.grid.every((array) =>
+        array.every((element) => element !== null)
       )
     ) {
-      console.log( game.computerPlayer.gameBoard.grid );
-      displayGameOverMessage( "Draw" );
+      console.log(game.computerPlayer.gameBoard.grid);
+      displayGameOverMessage("Draw");
     } else {
       startRound();
     }
-  } );
+  });
 };
 
-export const handleDragStart = ( event ) => {
-  event.dataTransfer.setData( "text/plain", event.target.dataset.ship );
+export const handleDragStart = (event) => {
+  event.dataTransfer.setData("text/plain", event.target.dataset.ship);
 };
 
-export const handleDragOver = ( event ) => {
+export const handleDragOver = (event) => {
   event.preventDefault();
 };
 
 const placedHumanShips = new Set();
 
-export const dropHumanShips = ( event ) => {
+export const dropHumanShips = (event) => {
   event.preventDefault();
-  const shipName = event.dataTransfer.getData( "text/plain" );
+  const shipName = event.dataTransfer.getData("text/plain");
 
   const ship = shipCollection[shipName];
-  const row = parseInt( event.target.dataset.row, 10 );
-  const col = parseInt( event.target.dataset.col, 10 );
+  const row = parseInt(event.target.dataset.row, 10);
+  const col = parseInt(event.target.dataset.col, 10);
   const direction = "horizontal";
 
   if (
-    game.humanPlayer.gameBoard.placeShip( row, col, ship.length, direction ) ===
+    game.humanPlayer.gameBoard.placeShip(row, col, ship.length, direction) ===
     "ship placed"
   ) {
     renderHumanBoard();
-    placedHumanShips.add( shipName );
+    placedHumanShips.add(shipName);
 
     const shipElement = document.querySelector(
-      `.ship[data-ship="${ shipName }"]`
+      `.ship[data-ship="${shipName}"]`
     );
 
-    if ( shipElement ) {
+    if (shipElement) {
       shipElement.remove();
     }
 
-    if ( placedHumanShips.size === 5 ) {
+    if (placedHumanShips.size === 5) {
       startRound();
     }
   }
 };
-
-
-
-
