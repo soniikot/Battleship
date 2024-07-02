@@ -84,7 +84,9 @@ class GameBoard {
   }
 
   receiveAttack(row, col) {
-    if (this.grid[row][col] instanceof Ship) {
+    if (this.grid[row][col] === "M" || this.grid[row][col] === "H") {
+      return "already hit";
+    } else if (this.grid[row][col] instanceof Ship) {
       const ship = this.grid[row][col];
       ship.hit();
       this.grid[row][col] = "H";

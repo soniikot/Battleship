@@ -27,8 +27,9 @@ export const startRound = () => {
 
   getCoordinates(computerBoard).then(({ row, col }) => {
     game.computerPlayer.gameBoard.receiveAttack(row, col);
-    computerBoard.innerHTML = "";
+
     renderComputerBoard();
+
     switchPlayer();
 
     game.humanPlayer.computerAttacks();
@@ -46,7 +47,6 @@ export const startRound = () => {
         array.every((element) => element !== null)
       )
     ) {
-      console.log(game.computerPlayer.gameBoard.grid);
       displayGameOverMessage("Draw");
     } else {
       startRound();
@@ -89,6 +89,8 @@ export const dropHumanShips = (event) => {
     }
 
     if (placedHumanShips.size === 5) {
+      const shipContainer = document.getElementById("ship-container");
+      shipContainer.innerHTML = "";
       startRound();
     }
   }

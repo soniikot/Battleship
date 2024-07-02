@@ -125,8 +125,13 @@ export const renderComputerBoard = () => {
 
 export const createShipContainer = () => {
   const shipContainer = document.createElement("div");
+
+  const shipContainerTitle = document.createElement("p");
+
+  shipContainerTitle.textContent = "Place your ships";
   shipContainer.id = "ship-container";
 
+  shipContainer.appendChild(shipContainerTitle);
   Object.entries(shipCollection).forEach(([shipName, ship]) => {
     const shipElement = document.createElement("div");
     shipElement.classList.add("ship");
@@ -143,7 +148,7 @@ export const createShipContainer = () => {
     shipContainer.appendChild(shipElement);
   });
 
-  wrapper.appendChild(shipContainer);
+  wrapper.prepend(shipContainer);
 };
 
 export const getCoordinates = (computerBoard) => {
