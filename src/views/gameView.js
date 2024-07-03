@@ -127,11 +127,17 @@ export const createShipContainer = () => {
   const shipContainer = document.createElement("div");
 
   const shipContainerTitle = document.createElement("p");
-
   shipContainerTitle.textContent = "Place your ships";
-  shipContainer.id = "ship-container";
 
+  shipContainer.id = "ship-container";
   shipContainer.appendChild(shipContainerTitle);
+
+  const rotateButton = document.createElement("button");
+  rotateButton.textContent = "Rotate Ships";
+  rotateButton.addEventListener("click", rotateShips);
+
+  shipContainer.appendChild(rotateButton);
+
   Object.entries(shipCollection).forEach(([shipName, ship]) => {
     const shipElement = document.createElement("div");
     shipElement.classList.add("ship");
@@ -149,6 +155,14 @@ export const createShipContainer = () => {
   });
 
   wrapper.prepend(shipContainer);
+};
+
+const rotateShips = () => {
+  const ships = document.querySelectorAll(".ship");
+
+  ships.forEach((ship) => {
+    ship.classList.toggle("rotated");
+  });
 };
 
 export const getCoordinates = (computerBoard) => {

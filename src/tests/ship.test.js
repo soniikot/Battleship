@@ -1,4 +1,4 @@
-import Ship from "../ship.js";
+import Ship from "../models/ship.js";
 let ship;
 beforeEach(() => {
   ship = new Ship(3);

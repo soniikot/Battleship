@@ -28,9 +28,11 @@ class Player {
   }
 
   computerAttacks() {
-    const row = Math.floor(Math.random() * 9);
-    const col = Math.floor(Math.random() * 9);
-    this.gameBoard.receiveAttack(row, col);
+    let row, col;
+    do {
+      row = Math.floor(Math.random() * 9);
+      col = Math.floor(Math.random() * 9);
+    } while (this.gameBoard.receiveAttack(row, col) === "already hit");
   }
 }
 

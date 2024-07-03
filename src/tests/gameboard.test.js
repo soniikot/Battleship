@@ -1,4 +1,4 @@
-import Gameboard from "../gameboard.js";
+import Gameboard from "../models/gameboard.js";
 let board;
 beforeEach(() => {
   board = new Gameboard();
@@ -66,7 +66,7 @@ describe("Gameboard class", () => {
     expect(board.receiveAttack(9, 1)).toBe("hit");
     expect(board.receiveAttack(9, 2)).toBe("hit");
 
-    expect(expect(board.checkWinners()).toBe("game over"));
+    expect(expect(board.checkWinners()).toBe(true));
     expect(board.displayGrid()).toEqual([
       ["H", "H", "X", " ", " ", " ", " ", " ", " ", " "],
       ["X", "X", "X", " ", " ", " ", " ", " ", " ", " "],

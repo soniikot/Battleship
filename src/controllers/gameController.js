@@ -25,33 +25,46 @@ const switchPlayer = () => {
 export const startRound = () => {
   const computerBoard = document.getElementById("renderedComputerBoard");
 
-  getCoordinates(computerBoard).then(({ row, col }) => {
-    game.computerPlayer.gameBoard.receiveAttack(row, col);
-
+  const handleAttack = ({ row, col }) => {
+    const attackResult = game.computerPlayer.gameBoard.receiveAttack(row, col);
     renderComputerBoard();
 
-    switchPlayer();
+    switch (attackResult) {
+      case "hit":
+        if (game.computerPlayer.gameBoard.checkWinners()) {
+          displayGameOverMessage("humanPlayerWin");
+        } else {
+          switchPlayer();
+          game.humanPlayer.computerAttacks();
+          renderHumanBoard();
+          switchPlayer();
+          startRound();
+        }
+        break;
+      case "missed":
+        switchPlayer();
+        game.humanPlayer.computerAttacks();
+        renderHumanBoard();
+        switchPlayer();
+        startRound();
+        break;
+      default:
+      case "already hit":
+        alert("You can not hit the same place twice");
+        getCoordinates(computerBoard).then(handleAttack);
+        break;
+    }
 
-    game.humanPlayer.computerAttacks();
-
-    renderHumanBoard();
-
-    switchPlayer();
-
-    if (game.computerPlayer.gameBoard.checkWinners() === true) {
-      displayGameOverMessage("humanPlayerWin");
-    } else if (game.humanPlayer.gameBoard.checkWinners() === true) {
-      displayGameOverMessage("computerPlayerWin");
-    } else if (
+    if (
       game.computerPlayer.gameBoard.grid.every((array) =>
         array.every((element) => element !== null)
       )
     ) {
       displayGameOverMessage("Draw");
-    } else {
-      startRound();
     }
-  });
+  };
+
+  getCoordinates(computerBoard).then(handleAttack);
 };
 
 export const handleDragStart = (event) => {

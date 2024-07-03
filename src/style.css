@@ -69,3 +69,28 @@ td:hover {
   border: 1px solid black;
   margin-bottom: 4px;
 }
+
+.game-over-message {
+  font-size: 25px;
+  text-align: center;
+  margin-top: 25px;
+}
+
+.ship {
+  display: flex;
+}
+
+.ship.rotated {
+  display: flex;
+  flex-wrap: wrap;
+  transform: rotate(90deg); /* Rotate the grid container */
+  transform-origin: 0 0;
+}
+
+.ship-cell {
+  width: 25px;
+  height: 25px;
+  background-color: rgb(78, 83, 208);
+  border: 1px solid black;
+  margin-bottom: 4px;
+}
