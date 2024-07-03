@@ -40,10 +40,6 @@ td {
   background-color: white;
 }
 
-.ship-cell {
-  background-color: rgb(9, 1, 255);
-}
-
 td:hover {
   background-color: purple;
 }
@@ -52,14 +48,6 @@ td:hover {
   display: flex;
   flex-direction: row;
   cursor: pointer;
-}
-
-.ship.horizontal {
-  flex-direction: row;
-}
-
-.ship.vertical {
-  flex-direction: column;
 }
 
 .ship-cell {
@@ -76,21 +64,10 @@ td:hover {
   margin-top: 25px;
 }
 
-.ship {
+.ship-container {
   display: flex;
 }
-
-.ship.rotated {
-  display: flex;
-  flex-wrap: wrap;
-  transform: rotate(90deg); /* Rotate the grid container */
-  transform-origin: 0 0;
-}
-
-.ship-cell {
-  width: 25px;
-  height: 25px;
-  background-color: rgb(78, 83, 208);
-  border: 1px solid black;
-  margin-bottom: 4px;
+.vertical {
+  flex-direction: column;
+  transform: rotate(90deg);
 }

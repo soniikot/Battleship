@@ -124,19 +124,19 @@ export const renderComputerBoard = () => {
 };
 
 export const createShipContainer = () => {
-  const shipContainer = document.createElement("div");
+  const shipContainerWrapper = document.createElement("div");
 
   const shipContainerTitle = document.createElement("p");
   shipContainerTitle.textContent = "Place your ships";
-
+  const shipContainer = document.createElement("div");
   shipContainer.id = "ship-container";
-  shipContainer.appendChild(shipContainerTitle);
+  shipContainerWrapper.appendChild(shipContainerTitle);
 
   const rotateButton = document.createElement("button");
   rotateButton.textContent = "Rotate Ships";
   rotateButton.addEventListener("click", rotateShips);
 
-  shipContainer.appendChild(rotateButton);
+  shipContainerWrapper.appendChild(rotateButton);
 
   Object.entries(shipCollection).forEach(([shipName, ship]) => {
     const shipElement = document.createElement("div");
@@ -153,16 +153,13 @@ export const createShipContainer = () => {
     shipElement.addEventListener("dragstart", handleDragStart);
     shipContainer.appendChild(shipElement);
   });
-
-  wrapper.prepend(shipContainer);
+  shipContainerWrapper.append(shipContainer);
+  wrapper.prepend(shipContainerWrapper);
 };
 
 const rotateShips = () => {
-  const ships = document.querySelectorAll(".ship");
-
-  ships.forEach((ship) => {
-    ship.classList.toggle("rotated");
-  });
+  const shipContainer = document.getElementById("ship-container");
+  shipContainer.classList.toggle("vertical");
 };
 
 export const getCoordinates = (computerBoard) => {

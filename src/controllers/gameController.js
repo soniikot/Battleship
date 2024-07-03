@@ -75,6 +75,12 @@ export const handleDragOver = (event) => {
   event.preventDefault();
 };
 
+const getShipDirection = () => {
+  const shipContainer = document.getElementById("ship-container");
+  return shipContainer.classList.contains("vertical")
+    ? "vertical"
+    : "horizontal";
+};
 const placedHumanShips = new Set();
 
 export const dropHumanShips = (event) => {
@@ -84,7 +90,7 @@ export const dropHumanShips = (event) => {
   const ship = shipCollection[shipName];
   const row = parseInt(event.target.dataset.row, 10);
   const col = parseInt(event.target.dataset.col, 10);
-  const direction = "horizontal";
+  const direction = getShipDirection();
 
   if (
     game.humanPlayer.gameBoard.placeShip(row, col, ship.length, direction) ===
