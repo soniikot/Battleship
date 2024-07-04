@@ -1,9 +1,5 @@
 import { shipCollection } from "../helpers/constraints.js";
-import { game, dropHumanShips } from "../controllers/gameController.js";
-import {
-  handleDragStart,
-  handleDragOver,
-} from "../controllers/gameController.js";
+import { game, startRound } from "../controllers/gameController.js";
 
 const wrapper = document.querySelector(".wrapper");
 
@@ -57,6 +53,7 @@ export const renderHumanBoard = () => {
       cell.textContent = cellData;
       cell.dataset.row = rowIndex;
       cell.dataset.col = colIndex;
+
       cell.addEventListener("dragover", handleDragOver);
       cell.addEventListener("drop", dropHumanShips);
 
@@ -128,6 +125,7 @@ export const createShipContainer = () => {
 
   const shipContainerTitle = document.createElement("p");
   shipContainerTitle.textContent = "Place your ships";
+
   const shipContainer = document.createElement("div");
   shipContainer.id = "ship-container";
   shipContainerWrapper.appendChild(shipContainerTitle);
@@ -143,6 +141,7 @@ export const createShipContainer = () => {
     shipElement.classList.add("ship");
     shipElement.draggable = true;
     shipElement.dataset.ship = shipName;
+    shipElement.classList.add = "hotizontal";
 
     for (let i = 0; i < ship.length; i++) {
       const cell = document.createElement("div");
@@ -158,8 +157,59 @@ export const createShipContainer = () => {
 };
 
 const rotateShips = () => {
-  const shipContainer = document.getElementById("ship-container");
-  shipContainer.classList.toggle("vertical");
+  const shipElements = document.querySelectorAll(".ship");
+  shipElements.forEach((shipElement) => {
+    shipElement.classList.toggle("vertical");
+  });
+};
+
+export const handleDragStart = (event) => {
+  const shipElement = event.target;
+  const shipDirection = getShipDirection(shipElement);
+  event.dataTransfer.setData("text/plain", shipElement.dataset.ship);
+  event.dataTransfer.setData("direction", shipDirection);
+};
+
+export const handleDragOver = (event) => {
+  event.preventDefault();
+};
+
+const getShipDirection = (shipElement) => {
+  return shipElement.classList.contains("vertical") ? "vertical" : "horizontal";
+};
+const placedHumanShips = new Set();
+
+export const dropHumanShips = (event) => {
+  event.preventDefault();
+  const shipName = event.dataTransfer.getData("text/plain");
+  const direction = event.dataTransfer.getData("direction") || "horizontal";
+
+  const ship = shipCollection[shipName];
+
+  const row = parseInt(event.target.dataset.row, 10);
+  const col = parseInt(event.target.dataset.col, 10);
+
+  if (
+    game.humanPlayer.gameBoard.placeShip(row, col, ship.length, direction) ===
+    "ship placed"
+  ) {
+    renderHumanBoard();
+    placedHumanShips.add(shipName);
+
+    const shipElement = document.querySelector(
+      `.ship[data-ship="${shipName}"]`
+    );
+
+    if (shipElement) {
+      shipElement.remove();
+    }
+
+    if (placedHumanShips.size === 5) {
+      const shipContainer = document.getElementById("ship-container");
+      shipContainer.innerHTML = "";
+      startRound();
+    }
+  }
 };
 
 export const getCoordinates = (computerBoard) => {
