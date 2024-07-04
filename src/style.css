@@ -68,6 +68,5 @@ td:hover {
   display: flex;
 }
 .vertical {
-  flex-direction: column;
   transform: rotate(90deg);
 }
