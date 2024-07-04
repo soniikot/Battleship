@@ -119,10 +119,10 @@ export const renderComputerBoard = () => {
     computerBoard.appendChild(table);
   });
 };
+const shipContainerWrapper = document.createElement("div");
+shipContainerWrapper.id = "ship-container-wrapper";
 
 export const createShipContainer = () => {
-  const shipContainerWrapper = document.createElement("div");
-
   const shipContainerTitle = document.createElement("p");
   shipContainerTitle.textContent = "Place your ships";
 
@@ -206,7 +206,7 @@ export const dropHumanShips = (event) => {
 
     if (placedHumanShips.size === 5) {
       const shipContainer = document.getElementById("ship-container");
-      shipContainer.innerHTML = "";
+      shipContainerWrapper.innerHTML = "";
       startRound();
     }
   }
